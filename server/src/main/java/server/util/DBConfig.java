@@ -21,7 +21,6 @@ public class DBConfig {
             config.setUsername(props.getProperty("db.user"));
             config.setPassword(props.getProperty("db.password"));
 
-            // пул
             config.setMaximumPoolSize(
                     Integer.parseInt(props.getProperty("db.pool.maximumPoolSize")));
             config.setMinimumIdle(
@@ -39,12 +38,10 @@ public class DBConfig {
         }
     }
 
-    /** Получить Connection из пула */
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 
-    /** Закрыть пул при завершении работы */
     public static void shutdownPool() {
         if (dataSource != null && !dataSource.isClosed()) {
             dataSource.close();

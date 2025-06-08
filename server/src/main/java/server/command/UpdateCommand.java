@@ -6,9 +6,7 @@ import common.model.Product;
 import server.dao.DaoException;
 import server.util.CollectionManager;
 
-/**
- * Команда обновления продукта с учётом авторизации.
- */
+
 public class UpdateCommand {
     private final CollectionManager collectionManager;
 

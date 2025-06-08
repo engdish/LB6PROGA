@@ -83,9 +83,7 @@ public class CommandProcessor {
     }
 
 
-    /**
-     * Основной метод обработки запросов.
-     */
+
     public CommandResponse process(CommandRequest request) {
         String type = request.getCommandType();
 
@@ -111,7 +109,7 @@ public class CommandProcessor {
             }
         }
 
-        // 3. Проверка авторизации для остальных команд
+
         try {
             boolean valid = userDao.validate(request.getUsername(), request.getPasswordHash());
             if (!valid) {
@@ -121,7 +119,7 @@ public class CommandProcessor {
             return new CommandResponse(false, "Ошибка авторизации: " + e.getMessage());
         }
 
-        // 4. Получаем пользователя для ownerId
+
         User user;
         try {
             user = userDao.findByUsername(request.getUsername())
@@ -131,7 +129,7 @@ public class CommandProcessor {
         }
         int ownerId = user.getId();
 
-        // 5. Выполняем команду с ownerId
+
         CommandHandler handler = commands.get(type);
         if (handler == null) {
             return new CommandResponse(false, "Неизвестная команда: " + type);
@@ -139,9 +137,7 @@ public class CommandProcessor {
         return handler.handle(request, ownerId);
     }
 
-    /**
-     * Functional interface для команд, требующих ownerId.
-     */
+
     @FunctionalInterface
     public interface CommandHandler {
         CommandResponse handle(CommandRequest request, int ownerId);

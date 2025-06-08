@@ -13,7 +13,6 @@ public class User {
         this.passwordHash = Objects.requireNonNull(passwordHash);
     }
 
-    // Конструктор для регистрационных целей (ID ещё не известен)
     public User(String username, String passwordHash) {
         this(0, username, passwordHash);
     }

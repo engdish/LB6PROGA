@@ -3,9 +3,11 @@ package common.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Coordinates implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     private final float x;
     private final Float y;

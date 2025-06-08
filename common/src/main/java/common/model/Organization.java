@@ -1,18 +1,17 @@
 package common.model;
 
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 public class Organization implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+
     private final Long id;
     private final String name;
     private final String fullName;
     private final OrganizationType type;
 
-    // Конструктор с ID, для работы после вставки в БД
+
     public Organization(Long id, String name, String fullName, OrganizationType type) {
         this.id = id;
         this.name = name;
@@ -20,9 +19,8 @@ public class Organization implements Serializable {
         this.type = type;
     }
 
-    // Конструктор для создания нового объекта, без ID (для вставки в БД)
     public Organization(String name, String fullName, OrganizationType type) {
-        this(null, name, fullName, type); // ID будет сгенерировано
+        this(null, name, fullName, type);
     }
 
     public Long getId() {

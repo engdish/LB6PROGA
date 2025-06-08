@@ -6,9 +6,7 @@ import common.model.Product;
 import server.util.CollectionManager;
 import server.dao.DaoException;
 
-/**
- * AddCommand с поддержкой ownerId.
- */
+
 public class AddCommand {
     private final CollectionManager collectionManager;
 

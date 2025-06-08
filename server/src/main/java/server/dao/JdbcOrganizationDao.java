@@ -7,9 +7,7 @@ import server.util.DBConfig;
 import java.sql.*;
 import java.util.Optional;
 
-/**
- * JDBC-реализация DAO для организаций.
- */
+
 public class JdbcOrganizationDao implements OrganizationDao {
 
     private static final String INSERT_SQL =

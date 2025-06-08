@@ -5,9 +5,7 @@ import common.CommandResponse;
 import server.dao.DaoException;
 import server.util.CollectionManager;
 
-/**
- * Команда удаления продукта по ID с учётом прав пользователя.
- */
+
 public class RemoveByIdCommand {
     private final CollectionManager collectionManager;
 

@@ -11,10 +11,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-/**
- * JDBC-реализация DAO для продуктов.
- */
 public class JdbcProductDao implements ProductDao {
 
     private static final String INSERT_SQL = """
@@ -38,7 +34,6 @@ public class JdbcProductDao implements ProductDao {
     @Override
     public Product save(Product p, int ownerId) throws DaoException {
         try (Connection conn = DBConfig.getConnection()) {
-            // Сохраняем организацию, если она новая
             Organization manufacturer = p.getManufacturer();
             if (manufacturer != null && manufacturer.getId() == null) {
                 manufacturer = orgDao.save(manufacturer);

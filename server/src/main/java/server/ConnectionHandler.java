@@ -1,6 +1,5 @@
 package server;
 
-import common.CommandRequest;
 import common.CommandResponse;
 import server.util.CollectionManager;
 import java.io.IOException;
@@ -68,12 +67,11 @@ public class ConnectionHandler {
                 });
 
             } catch (Exception e) {
-                logger.severe("Критическая ошибка в ConnectionHandler: " + e.getMessage());
+                logger.severe("Ошибка в ConnectionHandler: " + e.getMessage());
                 break;
             }
         }
 
-        // Завершение работы и освобождение ресурсов
         shutdown();
     }
 

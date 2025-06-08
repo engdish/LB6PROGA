@@ -6,9 +6,7 @@ import common.model.Product;
 import server.dao.DaoException;
 import server.util.CollectionManager;
 
-/**
- * Команда добавления продукта, если он меньше минимального, с учётом прав.
- */
+
 public class AddIfMinCommand {
     private final CollectionManager collectionManager;
 

@@ -1,6 +1,4 @@
-package client.model;
-
-import java.io.Serializable;
+package common.model;
 
 public enum OrganizationType {
     COMMERCIAL,

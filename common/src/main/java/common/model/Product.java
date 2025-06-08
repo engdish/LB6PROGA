@@ -1,17 +1,12 @@
-package client.model;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+package common.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Product implements Comparable<Product>, Serializable {
     private static final long serialVersionUID = 1L;
-    private static final AtomicInteger idGenerator = new AtomicInteger(1);
-    private final int id;
+    private int id;
     private final String name;
     private final Coordinates coordinates;
     private final LocalDateTime creationDate;
@@ -19,35 +14,22 @@ public class Product implements Comparable<Product>, Serializable {
     private final UnitOfMeasure unitOfMeasure;
     private final Organization manufacturer;
 
-    @JsonCreator
-    public Product(@JsonProperty("name") String name,
-                   @JsonProperty("coordinates") Coordinates coordinates,
-                   @JsonProperty("price") double price,
-                   @JsonProperty("unitOfMeasure") UnitOfMeasure unitOfMeasure,
-                   @JsonProperty("manufacturer") Organization manufacturer) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Имя продукта не может быть пустым или null!");
-        }
-        if (coordinates == null) {
-            throw new IllegalArgumentException("Координаты не могут быть null!");
-        }
-        if (price <= 0) {
-            throw new IllegalArgumentException("Цена должна быть больше чем 0!");
-        }
-        if (manufacturer == null) {
-            throw new IllegalArgumentException("Производитель не может быть null!");
-        }
-        this.id = idGenerator.getAndIncrement();
+    // Конструктор для создания через DAO (с ID, который генерируется БД)
+    public Product(int id, String name, Coordinates coordinates, LocalDateTime creationDate,
+                   double price, UnitOfMeasure unitOfMeasure, Organization manufacturer) {
+        this.id = id;
         this.name = name;
         this.coordinates = coordinates;
+        this.creationDate = creationDate;
         this.price = price;
         this.unitOfMeasure = unitOfMeasure;
         this.manufacturer = manufacturer;
-        this.creationDate = LocalDateTime.now();
     }
 
-    public static void updateIdGenerator(int newValue) {
-        idGenerator.set(newValue);
+    // Конструктор для создания нового продукта (без ID, для вставки в БД)
+    public Product(String name, Coordinates coordinates, double price, UnitOfMeasure unitOfMeasure,
+                   Organization manufacturer) {
+        this(0, name, coordinates, LocalDateTime.now(), price, unitOfMeasure, manufacturer);
     }
 
     public int getId() {
@@ -77,16 +59,32 @@ public class Product implements Comparable<Product>, Serializable {
     public Organization getManufacturer() {
         return manufacturer;
     }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Override
-    public int compareTo(Product other) {
-        return Integer.compare(this.id, other.id);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return String.format("Product{id=%d, name='%s', coordinates=%s, creationDate=%s, price=%.2f, unitOfMeasure=%s, manufacturer=%s}",
-                id, name, coordinates, creationDate, price,
-                Objects.toString(unitOfMeasure, "null"), manufacturer);
+                id, name, coordinates, creationDate, price, unitOfMeasure, manufacturer);
+    }
+
+    // Реализация метода compareTo для сортировки по id
+    @Override
+    public int compareTo(Product other) {
+        return Integer.compare(this.id, other.id);
     }
 }

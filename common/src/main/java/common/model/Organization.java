@@ -1,35 +1,28 @@
-package client.model;
+package common.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class Organization implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
-    private static final AtomicLong idGenerator = new AtomicLong(1);
     private final Long id;
     private final String name;
     private final String fullName;
     private final OrganizationType type;
 
-    @JsonCreator
-    public Organization(@JsonProperty("name") String name,
-                        @JsonProperty("fullName") String fullName,
-                        @JsonProperty("type") OrganizationType type) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Имя организации не может быть пустым или null!");
-        }
-        this.id = idGenerator.getAndIncrement();
+    // Конструктор с ID, для работы после вставки в БД
+    public Organization(Long id, String name, String fullName, OrganizationType type) {
+        this.id = id;
         this.name = name;
         this.fullName = fullName;
         this.type = type;
     }
 
-    public static void updateIdGenerator(long newValue) {
-        idGenerator.set(newValue);
+    // Конструктор для создания нового объекта, без ID (для вставки в БД)
+    public Organization(String name, String fullName, OrganizationType type) {
+        this(null, name, fullName, type); // ID будет сгенерировано
     }
 
     public Long getId() {
@@ -49,8 +42,21 @@ public class Organization implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
     public String toString() {
         return String.format("Organization{id=%d, name='%s', fullName='%s', type=%s}",
-                id, name, Objects.toString(fullName, "null"), Objects.toString(type, "null"));
+                id, name, fullName, type);
     }
 }

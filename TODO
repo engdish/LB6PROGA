@@ -1,0 +1,3 @@
+console
+psql -h localhost -U app_user -d user_db
+
